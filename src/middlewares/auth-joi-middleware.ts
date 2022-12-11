@@ -24,7 +24,7 @@ function signInIsValid(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-function singUpIsValid(req: Request, res: Response, next: NextFunction) {
+function signUpIsValid(req: Request, res: Response, next: NextFunction) {
     const { email, password } = req.body;
 
     const validation = signUpSchema.validate({ email, password }, { abortEarly: true })
@@ -36,4 +36,4 @@ function singUpIsValid(req: Request, res: Response, next: NextFunction) {
     }
 }
 
-export {singUpIsValid, signInIsValid}
+export {signUpIsValid, signInIsValid}

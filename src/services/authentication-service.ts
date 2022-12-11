@@ -1,6 +1,6 @@
 import { User } from "@prisma/client";
 import { conflictError } from "../errors/conflict-error";
-import { authenticationRepository } from "../repositories";
+import { authenticationRepository } from "../repositories/authentication-repository";
 import bcrypt from "bcrypt";
 import { notFoundError } from "../errors/not-found-error";
 import { invalidCredentialsError } from "../errors/invalid-credentials-error";
@@ -10,7 +10,7 @@ async function signUp (params: SignInParams) {
     const { email, password } = params;
 
     const userExists = await authenticationRepository.findByEmail(email);
-
+    
     if(userExists) throw conflictError("conflict error");
 
     const hashedPassword = await bcrypt.hash(password, 12)
@@ -32,13 +32,11 @@ async function signIn (params: SignInParams) {
 
     if(!isPasswordValid) throw invalidCredentialsError();
 
-    const token = jwt.sign( {userId: user.id}, process.env.JWT_SECRET);
+    const token = jwt.sign( {userId: user.id}, process.env.JWT_SECRET as string);
 
-    return {
-        user: {
-            id: user.id,
-            email: user.email
-        },
+    return { 
+        id: user.id,
+        email: user.email,
         token
     };
 }

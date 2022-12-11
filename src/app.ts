@@ -7,6 +7,7 @@ loadEnv();
 
 import {
     authenticationRouter,
+    credentialsRouter,
 } from "./routers"
 
 const app = express();
@@ -14,6 +15,7 @@ app
 .use(cors())
 .use(express.json())
 .use("/auth", authenticationRouter)
+.use("/credentials", credentialsRouter)
 
 export function init(): Promise<Express>{
     connectDb();

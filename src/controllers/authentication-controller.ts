@@ -7,7 +7,7 @@ export async function createSignUp(req: Request, res: Response) {
 
     try {
         const result = await authenticationService.signUp({ email, password });
-
+        
         return res.status(httpStatus.CREATED).send(result);
     } catch(error) {
         return res.sendStatus(httpStatus.BAD_REQUEST)
@@ -19,7 +19,7 @@ export async function createSignIn(req: Request, res: Response) {
 
     try {
         const result = await authenticationService.signIn({ email, password });
-
+       
         return res.status(httpStatus.OK).send(result);
     } catch(error) {
         return res.sendStatus(httpStatus.BAD_REQUEST)
