@@ -8,6 +8,7 @@ loadEnv();
 import {
     authenticationRouter,
     credentialsRouter,
+    networksRouter
 } from "./routers"
 
 const app = express();
@@ -16,6 +17,7 @@ app
 .use(express.json())
 .use("/auth", authenticationRouter)
 .use("/credentials", credentialsRouter)
+.use("/networks", networksRouter)
 
 export function init(): Promise<Express>{
     connectDb();

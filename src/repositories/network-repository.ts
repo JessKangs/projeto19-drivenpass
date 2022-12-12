@@ -1,6 +1,6 @@
 import { prisma } from "../config/database";
 
-async function createNetwork(network:string, password:string, title:string, userId:number) {
+async function createNetwork(title:string,network:string, password:string, userId:number) {
     return prisma.network.create({
         data:{
             title,
@@ -11,8 +11,37 @@ async function createNetwork(network:string, password:string, title:string, user
     })
 }
 
-const newtworksRepository = {
-    createNetwork
+async function getAllNetworks(userId:number) {
+    return prisma.network.findMany({
+        where: {
+            userId
+        }
+    })
 }
 
-export { newtworksRepository };
+async function getNetworkById(networkId:number, userId:number) {
+    return prisma.network.findFirst({
+        where:{
+           id: networkId,
+           userId
+        }
+    })
+}
+
+async function deleteNetworkById (id:number) {
+    return prisma.network.delete({
+        where: {
+            id,
+        }
+    })
+}
+
+
+const networksRepository = {
+    createNetwork,
+    getAllNetworks,
+    getNetworkById,
+    deleteNetworkById
+}
+
+export { networksRepository };

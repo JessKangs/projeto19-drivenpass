@@ -1,10 +1,9 @@
 import { User } from "@prisma/client";
-import { conflictError } from "../errors/conflict-error";
 import { authenticationRepository } from "../repositories/authentication-repository";
 import bcrypt from "bcrypt";
-import { notFoundError } from "../errors/not-found-error";
-import { invalidCredentialsError } from "../errors/invalid-credentials-error";
+import { notFoundError, invalidCredentialsError, conflictError, requestError } from "../errors";
 import jwt from "jsonwebtoken";
+import httpStatus from "http-status";
 
 async function signUp (params: SignInParams) {
     const { email, password } = params;
@@ -23,6 +22,8 @@ async function signUp (params: SignInParams) {
 
 async function signIn (params: SignInParams) {
     const { email, password } = params;
+
+    if(!email || !password) throw requestError(httpStatus.BAD_REQUEST, "cannot login with empty body")
 
     const user = await authenticationRepository.findByEmail(email);
 

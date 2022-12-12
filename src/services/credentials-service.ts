@@ -1,7 +1,7 @@
 import Cryptr from "cryptr"
 import { credentialsRepository } from "../repositories/credentials-repository";
-import { conflictError } from "../errors/conflict-error"
-import { notFoundError }  from "../errors/not-found-error";
+import { conflictError, notFoundError } from "../errors"
+
 
 async function createCredential(title: string, url: string, username:string, password:string, userId:number) {
     const cryptr = new Cryptr('secretKey')
@@ -10,7 +10,7 @@ async function createCredential(title: string, url: string, username:string, pas
 
     if (titleExists) throw conflictError("Title already exists.")
 
-    const criptedPassword = await cryptr.encrypt(password)
+    const criptedPassword = cryptr.encrypt(password)
 
     const credential = await credentialsRepository.createCredential(title, url, username, criptedPassword, userId)
 

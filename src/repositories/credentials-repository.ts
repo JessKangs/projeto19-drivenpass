@@ -1,6 +1,7 @@
 import { prisma } from "../config/database";
 
 async function titleExists(userId: number, title: string){
+
     return prisma.credential.findFirst({
         where: {
             userId,
